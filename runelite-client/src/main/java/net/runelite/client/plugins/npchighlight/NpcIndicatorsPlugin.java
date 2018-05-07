@@ -115,7 +115,7 @@ public class NpcIndicatorsPlugin extends Plugin
 	{
 		keyManager.registerKeyListener(inputListener);
 		highlights = getHighlights();
-		rebuildNpcs();
+		rebuildAllNpcs();
 	}
 
 	@Override
@@ -144,52 +144,7 @@ public class NpcIndicatorsPlugin extends Plugin
 		}
 
 		highlights = getHighlights();
-		rebuildNpcs();
-	}
-
-	private List<String> getHighlights()
-	{
-		final String configNpcs = config.getNpcToHighlight().toLowerCase();
-
-		if (configNpcs.isEmpty())
-		{
-			return Collections.emptyList();
-		}
-
-		return COMMA_SPLITTER.splitToList(configNpcs);
-	}
-
-	/**
-	 * Rebuild highlighted npcs
-	 */
-	private void rebuildNpcs()
-	{
-		highlightedNpcs.clear();
-
-		for (NPC npc : client.getNpcs())
-		{
-			String npcName = npc.getName();
-
-			if (npcName == null)
-			{
-				continue;
-			}
-
-			if (npcTags.contains(npc.getIndex()))
-			{
-				highlightedNpcs.add(npc);
-				continue;
-			}
-
-			for (String highlight : highlights)
-			{
-				if (WildcardMatcher.matches(highlight, npcName))
-				{
-					highlightedNpcs.add(npc);
-					break;
-				}
-			}
-		}
+		rebuildAllNpcs();
 	}
 
 	@Subscribe
@@ -282,4 +237,47 @@ public class NpcIndicatorsPlugin extends Plugin
 
 		hotKeyPressed = pressed;
 	}
+
+	private List<String> getHighlights()
+	{
+		final String configNpcs = config.getNpcToHighlight().toLowerCase();
+
+		if (configNpcs.isEmpty())
+		{
+			return Collections.emptyList();
+		}
+
+		return COMMA_SPLITTER.splitToList(configNpcs);
+	}
+
+	private void rebuildAllNpcs()
+	{
+		highlightedNpcs.clear();
+
+		for (NPC npc : client.getNpcs())
+		{
+			String npcName = npc.getName();
+
+			if (npcName == null)
+			{
+				continue;
+			}
+
+			if (npcTags.contains(npc.getIndex()))
+			{
+				highlightedNpcs.add(npc);
+				continue;
+			}
+
+			for (String highlight : highlights)
+			{
+				if (WildcardMatcher.matches(highlight, npcName))
+				{
+					highlightedNpcs.add(npc);
+					break;
+				}
+			}
+		}
+	}
+
 }
