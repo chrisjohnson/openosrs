@@ -31,4 +31,4 @@ Some of the code, like everything in runescape-client, is automatically generate
 
 ## Contribute and Develop
 
-We've set up a separate document for our [contribution guidelines](https://github.com/runelite/runelite/blob/master/CONTRIBUTING.md).
+We've set up a separate document for our [contribution guidelines](https://github.com/runelite/runelite/blob/master/.github/CONTRIBUTING.md).
