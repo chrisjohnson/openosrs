@@ -431,7 +431,8 @@ public class MenuEntrySwapperPlugin extends Plugin
 					break;
 			}
 		}
-		else if (config.swapFairyRing() != FairyRingMode.ZANARIS && (option.equals("zanaris") || option.equals("configure") || option.equals("tree")))
+		else if (config.swapFairyRing() != FairyRingMode.OFF && config.swapFairyRing() != FairyRingMode.ZANARIS
+			&& (option.equals("zanaris") || option.equals("configure") || option.equals("tree")))
 		{
 			if (config.swapFairyRing() == FairyRingMode.LAST_DESTINATION)
 			{
@@ -441,6 +442,10 @@ public class MenuEntrySwapperPlugin extends Plugin
 			{
 				swap("configure", option, target, false);
 			}
+		}
+		else if (config.swapFairyRing() == FairyRingMode.ZANARIS && option.equals("tree"))
+		{
+			swap("zanaris", option, target, false);
 		}
 		else if (config.swapBoxTrap() && (option.equals("check") || option.equals("dismantle")))
 		{
