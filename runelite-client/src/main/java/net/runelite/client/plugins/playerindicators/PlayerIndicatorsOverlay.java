@@ -91,6 +91,21 @@ public class PlayerIndicatorsOverlay extends Overlay
 		final String name = Text.sanitize(actor.getName());
 		Point textLocation = actor.getCanvasTextLocation(graphics, name, zOffset);
 
+		String combatLevel = Integer.toString(actor.getCombatLevel());
+		String playerInfo = name;
+
+		if (config.drawOverheadLevels())
+		{
+			if (!playerInfo.isEmpty())
+			{
+				playerInfo = playerInfo.concat("  (" + combatLevel + ")");
+			}
+			else
+			{
+				playerInfo = combatLevel;
+			}
+		}
+
 		if (drawPlayerNamesConfig == PlayerNameLocation.MODEL_RIGHT)
 		{
 			textLocation = actor.getCanvasTextLocation(graphics, "", zOffset);
@@ -143,6 +158,6 @@ public class PlayerIndicatorsOverlay extends Overlay
 			}
 		}
 
-		OverlayUtil.renderTextLocation(graphics, textLocation, name, color);
+		OverlayUtil.renderTextLocation(graphics, textLocation, playerInfo, color);
 	}
 }
