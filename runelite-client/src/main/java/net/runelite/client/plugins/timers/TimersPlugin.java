@@ -448,7 +448,8 @@ public class TimersPlugin extends Plugin
 
 		if (config.showTeleblock() && event.getMessage().equals(HALF_TELEBLOCK_MESSAGE))
 		{
-			if (client.getWorldType().contains(WorldType.DEADMAN))
+			if (client.getWorldType().contains(WorldType.DEADMAN)
+				&& !client.getWorldType().contains(WorldType.DEADMAN_TOURNAMENT))
 			{
 				createGameTimer(DMM_FULLTB);
 			}
@@ -673,7 +674,8 @@ public class TimersPlugin extends Plugin
 			if (actor.getGraphic() == BIND.getGraphicId())
 			{
 				if (client.isPrayerActive(Prayer.PROTECT_FROM_MAGIC)
-					&& !client.getWorldType().contains(WorldType.SEASONAL_DEADMAN))
+					&& !client.getWorldType().contains(WorldType.SEASONAL_DEADMAN)
+					&& !client.getWorldType().contains(WorldType.DEADMAN_TOURNAMENT))
 				{
 					createGameTimer(HALFBIND);
 				}
@@ -686,7 +688,8 @@ public class TimersPlugin extends Plugin
 			if (actor.getGraphic() == SNARE.getGraphicId())
 			{
 				if (client.isPrayerActive(Prayer.PROTECT_FROM_MAGIC)
-					&& !client.getWorldType().contains(WorldType.SEASONAL_DEADMAN))
+					&& !client.getWorldType().contains(WorldType.SEASONAL_DEADMAN)
+					&& !client.getWorldType().contains(WorldType.DEADMAN_TOURNAMENT))
 				{
 					createGameTimer(HALFSNARE);
 				}
@@ -699,7 +702,8 @@ public class TimersPlugin extends Plugin
 			if (actor.getGraphic() == ENTANGLE.getGraphicId())
 			{
 				if (client.isPrayerActive(Prayer.PROTECT_FROM_MAGIC)
-					&& !client.getWorldType().contains(WorldType.SEASONAL_DEADMAN))
+					&& !client.getWorldType().contains(WorldType.SEASONAL_DEADMAN)
+					&& !client.getWorldType().contains(WorldType.DEADMAN_TOURNAMENT))
 				{
 					createGameTimer(HALFENTANGLE);
 				}
