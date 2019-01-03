@@ -347,7 +347,16 @@ public class MenuEntrySwapperPlugin extends Plugin
 			return;
 		}
 
-		if (option.equals("talk-to"))
+		if (config.swapMakeAll() && option.equals("make-1"))
+		{
+			swap("make-all", option, target, true);
+		}
+		else if (config.swapSmithAll() && (option.equals("smith 1") || option.equals("smith 1 set")))
+		{
+			swap("smith all", option, target, true);
+			swap("smith all sets", option, target, true);
+		}
+		else if (option.equals("talk-to"))
 		{
 			if (config.swapPickpocket() && target.contains("h.a.m."))
 			{
