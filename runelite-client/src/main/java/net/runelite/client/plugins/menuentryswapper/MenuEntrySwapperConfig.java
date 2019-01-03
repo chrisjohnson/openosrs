@@ -183,6 +183,16 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "swapMakeAll",
+		name = "Make All",
+		description = "Swap Make-all to the top"
+	)
+	default boolean swapMakeAll()
+	{
+		return false;
+	}
+
+	@ConfigItem(
 		keyName = "swapPickpocket",
 		name = "Pickpocket on H.A.M.",
 		description = "Swap Talk-to with Pickpocket on H.A.M members"
@@ -240,6 +250,16 @@ public interface MenuEntrySwapperConfig extends Config
 	default boolean swapBoxTrap()
 	{
 		return true;
+	}
+
+	@ConfigItem(
+		keyName = "swapSmithAll",
+		name = "Smith All",
+		description = "Swap Smith-all to the top"
+	)
+	default boolean swapSmithAll()
+	{
+		return false;
 	}
 
 	@ConfigItem(
