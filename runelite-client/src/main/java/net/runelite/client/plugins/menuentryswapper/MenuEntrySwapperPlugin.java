@@ -356,6 +356,11 @@ public class MenuEntrySwapperPlugin extends Plugin
 			swap("smith all", option, target, true);
 			swap("smith all sets", option, target, true);
 		}
+		else if (config.swapRemove() && target.contains("chair") && option.equals("sit-on"))
+		{
+			// TODO: seems like it's swapping them before the game further swaps them
+			swap("remove", option, target, false);
+		}
 		else if (option.equals("talk-to"))
 		{
 			if (config.swapPickpocket() && target.contains("h.a.m."))

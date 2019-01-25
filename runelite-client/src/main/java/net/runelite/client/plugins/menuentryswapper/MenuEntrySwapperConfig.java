@@ -233,6 +233,16 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
+			keyName = "swapRemove",
+			name = "Remove (chair)",
+			description = "Swap Remove for Sit-on"
+	)
+	default boolean swapRemove()
+	{
+		return false;
+	}
+
+	@ConfigItem(
 		keyName = "swapBoxTrap",
 		name = "Reset",
 		description = "Swap Check with Reset on box trap"
