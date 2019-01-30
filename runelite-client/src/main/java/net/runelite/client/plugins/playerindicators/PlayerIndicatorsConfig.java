@@ -132,6 +132,17 @@ public interface PlayerIndicatorsConfig extends Config
 	}
 
 	@ConfigItem(
+		position = 8,
+		keyName = "showLevel",
+		name = "Show combat level",
+		description = "Configures whether or not to show combat level"
+	)
+	default boolean showLevel()
+	{
+		return false;
+	}
+
+	@ConfigItem(
 		position = 9,
 		keyName = "nonClanMemberColor",
 		name = "Non-clan member color",
