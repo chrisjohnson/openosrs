@@ -101,4 +101,15 @@ public interface WorldHopperConfig extends Config
 	{
 		return true;
 	}
+
+	@ConfigItem(
+		keyName = "casualMemberOnly",
+		name = "Filter out non-casual member worlds",
+		description = "Filter out worlds you aren't likely to want",
+		position = 6
+	)
+	default boolean casualMemberOnly()
+	{
+		return false;
+	}
 }
