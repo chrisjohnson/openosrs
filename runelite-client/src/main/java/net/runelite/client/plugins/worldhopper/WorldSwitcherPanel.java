@@ -241,7 +241,9 @@ class WorldSwitcherPanel extends PluginPanel
 					break;
 			}
 
-			rows.add(buildRow(world, i % 2 == 0, world.getId() == plugin.getCurrentWorld() && plugin.getLastWorld() != 0, plugin.isFavorite(world)));
+			if (!plugin.shouldFilter(world)) {
+				rows.add(buildRow(world, i % 2 == 0, world.getId() == plugin.getCurrentWorld() && plugin.getLastWorld() != 0, plugin.isFavorite(world)));
+			}
 		}
 
 		updateList();

@@ -285,6 +285,15 @@ public class WorldHopperPlugin extends Plugin
 		return id == favoriteWorld1 || id == favoriteWorld2 || isFavoriteConfig(id);
 	}
 
+	boolean shouldFilter(World world)
+	{
+		if (!config.casualMemberOnly()) {
+			return false;
+		}
+		EnumSet<WorldType> worldTypes = world.getTypes().clone();
+		return !worldTypes.contains(WorldType.MEMBERS) || worldTypes.contains(WorldType.SKILL_TOTAL) || worldTypes.contains(WorldType.BOUNTY) || worldTypes.contains(WorldType.LAST_MAN_STANDING) || worldTypes.contains(WorldType.TOURNAMENT) || worldTypes.contains(WorldType.DEADMAN_TOURNAMENT) || worldTypes.contains(WorldType.DEADMAN) || worldTypes.contains(WorldType.SEASONAL_DEADMAN);
+	}
+
 	int getCurrentWorld()
 	{
 		return client.getWorld();
