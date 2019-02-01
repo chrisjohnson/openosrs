@@ -375,6 +375,24 @@ public class MenuEntrySwapperPlugin extends Plugin
 		{
 			swap("make-all", option, target, true);
 		}
+		else if (config.swapGlory() != GloryOption.REMOVE && option.equals("remove"))
+		{
+			switch (config.swapGlory())
+			{
+				case EDGEVILLE:
+					swap("edgeville", option, target, true);
+					break;
+				case KARAMJA:
+					swap("karamja", option, target, true);
+					break;
+				case DRAYNOR_VILLAGE:
+					swap("draynor village", option, target, true);
+					break;
+				case AL_KHARID:
+					swap("al kharid", option, target, true);
+					break;
+			}
+		}
 		else if (config.swapSmithAll() && (option.equals("smith 1") || option.equals("smith 1 set")))
 		{
 			swap("smith all", option, target, true);

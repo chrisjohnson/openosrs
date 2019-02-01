@@ -153,6 +153,16 @@ public interface MenuEntrySwapperConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "swapGlory",
+		name = "Glory",
+		description = "Swap Left-click option for Amulet of Glory (in gear menu)"
+	)
+	default GloryOption swapGlory()
+	{
+		return GloryOption.REMOVE;
+	}
+
+	@ConfigItem(
 		keyName = "swapHarpoon",
 		name = "Harpoon",
 		description = "Swap Cage, Big Net with Harpoon on Fishing spot"
