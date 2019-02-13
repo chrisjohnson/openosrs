@@ -403,6 +403,10 @@ public class MenuEntrySwapperPlugin extends Plugin
 			// TODO: seems like it's swapping them before the game further swaps them
 			swap("remove", option, target, false);
 		}
+		else if (option.equals("attack") && config.swapPickpocket())
+		{
+			swap("pickpocket", option, target, true);
+		}
 		else if (option.equals("talk-to"))
 		{
 			if (config.swapPickpocket() && target.contains("h.a.m."))
