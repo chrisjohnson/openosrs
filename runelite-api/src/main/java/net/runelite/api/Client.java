@@ -1555,6 +1555,17 @@ public interface Client extends GameEngine
 	void hopToWorld(World world);
 
 	/**
+	 * Opens the prayer menu
+	 */
+	void openPrayerMenu();
+
+	/**
+	 * Activates the specified prayer
+	 * @param widgetInfoName The WidgetInfo.name of the prayer to activate
+	 */
+	void activatePrayer(String widgetInfoName);
+
+	/**
 	 * Sets the RGB color of the skybox
 	 */
 	void setSkyboxColor(int skyboxColor);

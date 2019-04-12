@@ -139,6 +139,8 @@ public class WorldHopperPlugin extends Plugin
 	private net.runelite.api.World quickHopTargetWorld;
 	private int displaySwitcherAttempts = 0;
 
+	private String prayerActivatorTargetPrayer;
+
 	@Getter
 	private int lastWorld;
 
@@ -149,20 +151,29 @@ public class WorldHopperPlugin extends Plugin
 	private Instant lastFetch;
 	private boolean firstRun;
 
-	private final HotkeyListener previousKeyListener = new HotkeyListener(() -> config.previousKey())
-	{
-		@Override
-		public void hotkeyPressed()
-		{
-			hop(true);
-		}
-	};
+	//private final HotkeyListener previousKeyListener = new HotkeyListener(() -> config.previousKey())
+	//{
+		//@Override
+		//public void hotkeyPressed()
+		//{
+			//hop(true);
+		//}
+	//};
 	private final HotkeyListener nextKeyListener = new HotkeyListener(() -> config.nextKey())
 	{
 		@Override
 		public void hotkeyPressed()
 		{
 			hop(false);
+		}
+	};
+	private final HotkeyListener prayerKeyListener = new HotkeyListener(() -> config.previousKey())
+	{
+		@Override
+		public void hotkeyPressed()
+		{
+			System.out.println("Received hotkey");
+			activatePrayer("PROTECT_FROM_MELEE");
 		}
 	};
 
@@ -177,8 +188,9 @@ public class WorldHopperPlugin extends Plugin
 	{
 		firstRun = true;
 
-		keyManager.registerKeyListener(previousKeyListener);
+		//keyManager.registerKeyListener(previousKeyListener);
 		keyManager.registerKeyListener(nextKeyListener);
+		keyManager.registerKeyListener(prayerKeyListener);
 
 		panel = new WorldSwitcherPanel(this);
 
@@ -213,8 +225,9 @@ public class WorldHopperPlugin extends Plugin
 		pingFuture.cancel(true);
 		pingFuture = null;
 
-		keyManager.unregisterKeyListener(previousKeyListener);
+		//keyManager.unregisterKeyListener(previousKeyListener);
 		keyManager.unregisterKeyListener(nextKeyListener);
+		keyManager.unregisterKeyListener(prayerKeyListener);
 
 		worldResultFuture.cancel(true);
 		worldResultFuture = null;
@@ -655,42 +668,58 @@ public class WorldHopperPlugin extends Plugin
 		displaySwitcherAttempts = 0;
 	}
 
+	private void activatePrayer(String targetPrayer)
+	{
+		System.out.println("Activating prayer");
+		prayerActivatorTargetPrayer = targetPrayer;
+	}
+
 	@Subscribe
 	public void onGameTick(GameTick event)
 	{
-		if (quickHopTargetWorld == null)
+		if (quickHopTargetWorld == null && prayerActivatorTargetPrayer == null)
 		{
 			return;
 		}
 
-		if (client.getWidget(WidgetInfo.WORLD_SWITCHER_LIST) == null)
+		if (quickHopTargetWorld != null)
 		{
-			client.openWorldHopper();
-
-			if (++displaySwitcherAttempts >= DISPLAY_SWITCHER_MAX_ATTEMPTS)
+			if (client.getWidget(WidgetInfo.WORLD_SWITCHER_LIST) == null)
 			{
-				String chatMessage = new ChatMessageBuilder()
-					.append(ChatColorType.NORMAL)
-					.append("Failed to quick-hop after ")
-					.append(ChatColorType.HIGHLIGHT)
-					.append(Integer.toString(displaySwitcherAttempts))
-					.append(ChatColorType.NORMAL)
-					.append(" attempts.")
-					.build();
+				client.openWorldHopper();
 
-				chatMessageManager
-					.queue(QueuedMessage.builder()
-						.type(ChatMessageType.CONSOLE)
-						.runeLiteFormattedMessage(chatMessage)
-						.build());
+				if (++displaySwitcherAttempts >= DISPLAY_SWITCHER_MAX_ATTEMPTS)
+				{
+					String chatMessage = new ChatMessageBuilder()
+						.append(ChatColorType.NORMAL)
+						.append("Failed to quick-hop after ")
+						.append(ChatColorType.HIGHLIGHT)
+						.append(Integer.toString(displaySwitcherAttempts))
+						.append(ChatColorType.NORMAL)
+						.append(" attempts.")
+						.build();
 
+					chatMessageManager
+						.queue(QueuedMessage.builder()
+							.type(ChatMessageType.CONSOLE)
+							.runeLiteFormattedMessage(chatMessage)
+							.build());
+
+					resetQuickHopper();
+				}
+			}
+			else
+			{
+				client.hopToWorld(quickHopTargetWorld);
 				resetQuickHopper();
 			}
 		}
-		else
+
+		if (prayerActivatorTargetPrayer != null)
 		{
-			client.hopToWorld(quickHopTargetWorld);
-			resetQuickHopper();
+			client.openPrayerMenu();
+			client.activatePrayer(prayerActivatorTargetPrayer);
+			resetPrayerActivator();
 		}
 	}
 
@@ -712,6 +741,11 @@ public class WorldHopperPlugin extends Plugin
 	{
 		displaySwitcherAttempts = 0;
 		quickHopTargetWorld = null;
+	}
+
+	private void resetPrayerActivator()
+	{
+		prayerActivatorTargetPrayer = null;
 	}
 
 	private ChatPlayer getChatPlayerFromName(String name)
