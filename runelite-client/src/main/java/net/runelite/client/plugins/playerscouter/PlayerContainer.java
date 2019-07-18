@@ -68,12 +68,13 @@ class PlayerContainer
 	private Prayer overhead;
 	private Prayer predictedPrayer;
 	private Skill prayer;
+	private Skill agility;
 	private String estimatedPrayerString;
 	private String location;
 	private String name;
 	private String targetString;
 
-	PlayerContainer(Player player, Skill prayer)
+	PlayerContainer(Player player, Skill prayer, Skill agility)
 	{
 		this.attacking = false;
 		this.attackStyle = AttackStyle.UNKNOWN;
@@ -92,6 +93,7 @@ class PlayerContainer
 		this.player = player;
 		this.prayer = prayer;
 		this.prayerBonus = 0;
+		this.agility = agility;
 		this.predictedPrayer = null;
 		this.rangeAttack = 0;
 		this.rangeDefence = 0;

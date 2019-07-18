@@ -124,6 +124,7 @@ class Utils
 	private static void updatePlayerGear(PlayerContainer player, ItemManager itemManager)
 	{
 		Map<Integer, Integer> prices = new HashMap<>();
+		List<Integer> selectedItems = new ArrayList<>();
 
 		if (player.getPlayer().getPlayerAppearance() != null)
 		{
@@ -148,6 +149,11 @@ class Utils
 
 				final ItemStats item = itemManager.getItemStats(id, false);
 				final ItemDefinition itemDefinition = itemManager.getItemDefinition(id);
+				if (id == 22550 || id == 22545)
+				{
+					log.debug("Found high-value item, id: {}, item: {}", id, item);
+					selectedItems.add(id);
+				}
 
 				if (item == null)
 				{

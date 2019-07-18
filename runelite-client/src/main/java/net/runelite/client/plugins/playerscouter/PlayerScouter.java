@@ -251,11 +251,13 @@ public class PlayerScouter extends Plugin
 
 		executorService.submit(() ->
 		{
-			SingleHiscoreSkillResult result;
+			SingleHiscoreSkillResult prayerResult;
+			SingleHiscoreSkillResult agilityResult;
 
 			try
 			{
-				result = HISCORE_CLIENT.lookup(player.getName(), HiscoreSkill.PRAYER);
+				prayerResult = HISCORE_CLIENT.lookup(player.getName(), HiscoreSkill.PRAYER);
+				agilityResult = HISCORE_CLIENT.lookup(player.getName(), HiscoreSkill.AGILITY);
 			}
 			catch (IOException ex)
 			{
@@ -263,7 +265,7 @@ public class PlayerScouter extends Plugin
 				return;
 			}
 
-			playerContainer.add(new PlayerContainer(player, result.getSkill()));
+			playerContainer.add(new PlayerContainer(player, prayerResult.getSkill(), agilityResult.getSkill()));
 			blacklist.put(player.getName(), client.getTickCount() + this.timeout);
 		});
 	}
@@ -289,7 +291,7 @@ public class PlayerScouter extends Plugin
 			Utils.reset(player);
 			Utils.update(player, itemManager, 6, WILD_LOCS);
 
-			if (player.getRisk() > this.minimumRisk && checkWildy())
+			if (checkPlayer(player))
 			{
 				Utils.scoutPlayer(player, url, DISCORD_CLIENT, itemManager, client, this.minimumValue);
 			}
@@ -322,6 +324,30 @@ public class PlayerScouter extends Plugin
 		this.onlyWildy = config.onlyWildy();
 	}
 
+	private boolean checkPlayer(PlayerContainer player)
+	{
+		if (!checkWildy())
+		{
+			return false;
+		}
+//player.getGear()
+//TODO: Check if selectedItems is not empty
+//
+		log.debug(player.toString());
+
+		if (player.getRisk() > this.minimumRisk)
+		{
+			return true;
+		}
+
+		//TODO: Only check this if selectedItems is not empty
+		if (player.getAgility().getLevel() <= 71)
+		{
+			return true;
+		}
+
+		return false;
+	}
 	private boolean checkWildy()
 	{
 		if (!this.onlyWildy)
